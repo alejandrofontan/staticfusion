@@ -195,7 +195,7 @@ void Datasets::loadFrameAndPoseFromDataset(Eigen::MatrixXf &depth_wf, Eigen::Mat
             color_full.at<cv::Vec3b>(i,j) = cv::Vec3b( rCol * 255, gCol* 255, bCol * 255);
         }
 
-	timestamp_obs = mrpt::system::timestampTotime_t(obs3D->timestamp);
+	timestamp_obs = mrpt::Clock::toDouble(obs3D->timestamp);
 
 	obs3D->unload();
     rawlog_count+=1;

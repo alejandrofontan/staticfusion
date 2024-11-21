@@ -1,6 +1,6 @@
 PROJECT(StaticFusion)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.2)
 if(COMMAND cmake_policy)
       cmake_policy(SET CMP0003 NEW)  # Required by CMake 2.7+
 endif(COMMAND cmake_policy)
@@ -12,10 +12,13 @@ LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
 MESSAGE(STATUS "CMAKE_MODULE_PATH:   " ${CMAKE_MODULE_PATH})
 
-find_package(Pangolin 0.6 REQUIRED)
-
 #Find dependencies (Eigen is included in MRPT)
+set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};Pangolin/bin")
+find_package(Pangolin REQUIRED)
+
+set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};mrpt/bin")
 find_package(MRPT 2 REQUIRED COMPONENTS poses obs)
+
 find_package(OpenCV REQUIRED)
 find_package(OpenNI2)
 
@@ -92,7 +95,7 @@ TARGET_LINK_LIBRARIES(StaticFusion-ImageSeqAssoc 	sf_lib)
 
 add_definitions(-DSHADER_DIR="${sfusion_SHADER_DIR}")
 
-set(CMAKE_CXX_FLAGS "-O3 -msse2 -msse3")
+#set(CMAKE_CXX_FLAGS "-O3 -msse2 -msse3")
 
 # Set optimized building:
 IF(CMAKE_COMPILER_IS_GNUCXX)
